@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "prisma": "prisma studio"
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "",

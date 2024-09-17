@@ -1,14 +1,17 @@
 import express from "express";
 import logger from "morgan";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 import { Server } from "socket.io";
 import { createServer } from "node:http";
-import cors from "cors";
 import authRoutes from "./routes/auth.routes.js";
 import chatsRoutes from "./routes/chats.routes.js";
 import prisma from "./db.js";
 
 const PORT = process.env.PORT || 3000;
 const app = express();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
@@ -113,6 +116,7 @@ io.on("connection", async (socket) => {
   });
 });
 
+app.use(express.static(path.join(__dirname, "../client/dist")));
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
