@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useData } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 const LoginPage = () => {
@@ -23,9 +23,13 @@ const LoginPage = () => {
   });
 
   return (
-    <div className="w-1/2 mx-auto py-10 bg-slate-800 rounded-md ">
-      <h1 className="text-4xl text-center font-bold">Login</h1>
-      <form onSubmit={onSubmit} className="w-full p-5 flex flex-col gap-10">
+    <div className="w-full md:w-1/2 mx-auto my-10 py-10 bg-slate-800 rounded-md ">
+      <h1 className="text-4xl text-center font-bold mb-5">Login</h1>
+      <p className="text-center">Login with your email and password</p>
+      <form
+        onSubmit={onSubmit}
+        className="w-full px-5 flex flex-col gap-5 my-10"
+      >
         <div>
           <label htmlFor="email" className="block mb-2">
             Email:
@@ -34,6 +38,7 @@ const LoginPage = () => {
             type="email"
             name="email"
             id="email"
+            placeholder="Type your email"
             {...register("email", { required: true })}
             className="w-full  p-2 rounded-md bg-slate-600"
           />
@@ -47,6 +52,7 @@ const LoginPage = () => {
             type="password"
             name="password"
             id="password"
+            placeholder="Type your password"
             {...register("password", { required: true })}
             className="w-full p-2 rounded-md bg-slate-600"
           />
@@ -61,6 +67,12 @@ const LoginPage = () => {
           Login
         </button>
       </form>
+      <p className="text-center">
+        Don&apos;t have an account?{" "}
+        <Link to="/sign-up" className="text-blue-500 underline">
+          Signup
+        </Link>
+      </p>
     </div>
   );
 };

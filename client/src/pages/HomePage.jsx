@@ -1,7 +1,8 @@
 import { useData } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
-  const { user, loading, isAuthenticated } = useData();
+  const { user, isAuthenticated } = useData();
   return (
     <div>
       <h1 className="text-5xl font-bold text-center mt-10">
@@ -12,18 +13,18 @@ const HomePage = () => {
       </p>
       {!isAuthenticated && (
         <div className="flex justify-center mt-10">
-          <a
-            href="/login"
+          <Link
+            to="/login"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
             Login
-          </a>
-          <a
-            href="/signup"
+          </Link>
+          <Link
+            to="/register"
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-5"
           >
             Sign Up
-          </a>
+          </Link>
         </div>
       )}
       {isAuthenticated && (

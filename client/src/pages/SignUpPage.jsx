@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useData } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 const SignUpPage = () => {
   const { registerAuth, isAuthenticated } = useData();
@@ -17,9 +17,15 @@ const SignUpPage = () => {
     reset();
   });
   return (
-    <div className="w-1/2 mx-auto py-10 bg-slate-800 rounded-md ">
-      <h1 className="text-4xl text-center font-bold">Sign Up</h1>
-      <form onSubmit={onSubmit} className="w-full p-5 flex flex-col gap-10">
+    <div className="w-full md:w-1/2 mx-auto my-10 py-10 bg-slate-800 rounded-md ">
+      <h1 className="mb-5 text-4xl text-center font-bold">Sign Up</h1>
+      <p className="text-center px-5">
+        Sign up with your name, email and password
+      </p>
+      <form
+        onSubmit={onSubmit}
+        className="w-full px-5 my-10 flex flex-col gap-5"
+      >
         <div>
           <label htmlFor="name" className="block mb-2">
             Name:
@@ -66,6 +72,12 @@ const SignUpPage = () => {
           Sign Up
         </button>
       </form>
+      <p className="text-center">
+        Already have an account?{" "}
+        <Link to="/login" className="text-blue-500 underline">
+          Login
+        </Link>
+      </p>
     </div>
   );
 };

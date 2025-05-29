@@ -15,6 +15,7 @@ export const useChat = () => {
 export const ChatsContextProvider = ({ children }) => {
   const [chats, setChats] = useState([]);
   const [users, setUsers] = useState([]);
+  const [showChats, setShowChats] = useState(false);
 
   const loadChats = async () => {
     try {
@@ -40,7 +41,8 @@ export const ChatsContextProvider = ({ children }) => {
         loadConversations: loadChats,
         users,
         loadUsers,
-        // setChats,
+        showChats,
+        setShowChats,
       }}
     >
       {children}

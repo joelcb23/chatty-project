@@ -3,8 +3,19 @@
 @tailwind utilities;
 
 body {
-  @apply bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white;
+  @apply bg-white dark:bg-slate-900 text-slate-900 dark:text-white;
   @apply min-h-screen;
-  @apply container mx-auto;
-  font-family: "Hack Nerd Font", monospace;
+  @apply max-w-7xl mx-auto;
+  @apply font-mono;
+}
+
+.chats {
+  @apply bg-slate-100 dark:bg-slate-800 transition-all duration-500 ease-in-out;
+  @apply absolute top-16 h-full;
+  @apply md:static md:rounded-md;
+}
+
+.bottom-bar {
+  @apply bg-white dark:bg-slate-900 w-full h-16 text-lg fixed bottom-0 z-50 flex items-center justify-between gap-2;
+  @apply md:hidden;
 }
