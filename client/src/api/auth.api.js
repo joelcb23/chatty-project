@@ -1,7 +1,7 @@
 import axios from "./axios";
 
 export const registerAuthRequest = async (data) =>
-  await axios.post(`/auth/signup`, data);
+  await axios.post(`/auth/register`, data);
 
 export const loginAuthRequest = async (data) =>
   await axios.post(`/auth/login`, data);

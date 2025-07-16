@@ -8,7 +8,7 @@ import {
 
 const router = Router();
 
-router.post("/signup", register);
+router.post("/register", register);
 router.post("/login", login);
 router.get("/verify", verifyTk);
 router.post("/logout", logout);

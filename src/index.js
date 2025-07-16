@@ -15,7 +15,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL,
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -25,13 +25,16 @@ const io = new Server(server, {
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL,
     credentials: true,
   })
 );
 app.use(express.urlencoded({ extended: true }));
 app.use(logger("dev"));
 
+app.get("/api/index", (req, res) => {
+  res.send("Hello World!");
+});
 app.use("/api/auth", authRoutes);
 app.use("/api", chatsRoutes);
 

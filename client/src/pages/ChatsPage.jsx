@@ -28,7 +28,7 @@ const ChatsPage = () => {
   const messagesRef = useRef(null);
 
   useEffect(() => {
-    socketRef.current = io("http://localhost:3000", {
+    socketRef.current = io("http://localhost:4000", {
       auth: {
         token: Cookies.get("token"),
         user: user.user,
@@ -48,7 +48,6 @@ const ChatsPage = () => {
       }
     );
     socketRef.current.on("conversation", (id) => {
-      console.log(id);
       setActiveConversationId(id);
     });
     return () => {
@@ -89,7 +88,6 @@ const ChatsPage = () => {
     setReceiverId(id);
     socketRef.current.emit("conversation", id);
     const response = await getChatByIdRequest(id);
-    console.log(response);
     if (!response.data.messages) return;
     setMessages(response.data.messages);
   };

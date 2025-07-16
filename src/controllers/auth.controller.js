@@ -34,9 +34,7 @@ export const register = async (req, res) => {
       }
     );
     const serialized = serialize("token", token, {
-      // httpOnly: process.env.NODE_ENV !== "development",
-      httpOnly: false,
-
+      httpOnly: process.env.NODE_ENV !== "development",
       secure: true,
       sameSite: "none",
       maxAge: 1000 * 60 * 60 * 24 * 30,
@@ -73,8 +71,7 @@ export const login = async (req, res) => {
       }
     );
     const serialized = serialize("token", token, {
-      // httpOnly: process.env.NODE_ENV !== "development",
-      httpOnly: false,
+      httpOnly: process.env.NODE_ENV !== "development",
       secure: true,
       sameSite: "none",
       maxAge: 1000 * 60 * 60 * 24 * 30,
