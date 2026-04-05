@@ -7,6 +7,11 @@ const handlePrismaDuplicate = (err: any) => {
   const field = err.meta?.target ? err.meta.target : "unknown field";
   return new AppError(`${field} already exists`, 409);
 };
+
+const handlePrismaNotFound = (err: any) => {
+  const field = err.meta?.modelName ? err.meta.modelName : "Unknown field";
+  return new AppError(`${field} not found`, 404);
+};
 export const globalErrorHandler = (
   error: any,
   req: express.Request,
@@ -17,7 +22,7 @@ export const globalErrorHandler = (
   if (err.code === "P2002") {
     err = handlePrismaDuplicate(err);
   } else if (err.code === "P2025") {
-    err = new AppError("Resource not found", 404);
+    err = handlePrismaNotFound(err);
   }
 
   err.statusCode = err.statusCode || 500;

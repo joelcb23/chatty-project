@@ -5,29 +5,27 @@ import * as ConversationService from "../services/conversation.service";
 import { catchAsync } from "../utils/catchAsync";
 import { AppError } from "../utils/AppError";
 
-export const getConversations = async (
-  req: express.Request,
-  res: express.Response,
-) => {
-  const userId = req.user.id;
-  const conversations = await ConversationService.findConversationsByUser({
-    userId,
-  });
-  res.status(200).json({ conversations });
-};
+export const getConversations = catchAsync(
+  async (req: express.Request, res: express.Response) => {
+    const userId = req.user.id;
+    const conversations = await ConversationService.findConversationsByUser({
+      userId,
+    });
+    res.status(200).json({ conversations });
+  },
+);
 
-export const createConversation = async (
-  req: express.Request,
-  res: express.Response,
-) => {
-  const userId: string = req.user.id;
-  const { receiverId }: { receiverId: string } = req.body;
-  const conversation = await ConversationService.createNewConversation(
-    userId,
-    receiverId,
-  );
-  res.status(201).json({ conversation });
-};
+export const createConversation = catchAsync(
+  async (req: express.Request, res: express.Response) => {
+    const userId: string = req.user.id;
+    const { receiverId }: { receiverId: string } = req.body;
+    const conversation = await ConversationService.createNewConversation(
+      userId,
+      receiverId,
+    );
+    res.status(201).json({ conversation });
+  },
+);
 
 export const createGroupConversation = catchAsync(
   async (req: express.Request, res: express.Response) => {

@@ -1,6 +1,7 @@
 // src/routes/message.routes.ts
 
 import { Router } from "express";
+import * as AuthMiddleware from "../middlewares/auth.middleware";
 import {
   createMessage,
   deleteMessage,
@@ -10,9 +11,11 @@ import {
 
 const router = Router({ mergeParams: true });
 
+router.use(AuthMiddleware.verifyAuth);
+
 router.get("/", getMessages);
 router.post("/", createMessage);
-router.put("/", updateMessage);
-router.delete("/", deleteMessage);
+router.put("/:messageId", updateMessage);
+router.delete("/:messageId", deleteMessage);
 
 export default router;

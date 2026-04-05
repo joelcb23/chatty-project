@@ -16,6 +16,7 @@ router.use(AuthMiddleware.verifyAuth);
 router.get("/", getConversations);
 router.post("/", createConversation);
 router.post("/group", createGroupConversation);
+router.put("/group/:conversationId", () => {});
 router.delete("/:conversationId", deleteConversation);
 
 export default router;

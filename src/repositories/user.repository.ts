@@ -1,3 +1,5 @@
+// src/repositories/user.repository.ts
+
 import prisma from "../db";
 
 export interface UserInsertModel {
@@ -43,3 +45,20 @@ export const findUserById = async ({ id }: { id: string }) =>
   });
 
 export const findAllUsers = async () => await prisma.user.findMany();
+
+export const updateOneUserById = async ({
+  id,
+  data,
+}: {
+  id: string;
+  data: any;
+}) =>
+  await prisma.user.update({
+    where: { id },
+    data,
+  });
+
+export const deleteOneUserById = async ({ id }: { id: string }) =>
+  await prisma.user.delete({
+    where: { id },
+  });
