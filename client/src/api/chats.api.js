@@ -1,4 +1,4 @@
-import axios from "./axios";
+import axios from "./axios.api";
 
 export const getChatsRequest = async () => await axios.get("/chats");
 

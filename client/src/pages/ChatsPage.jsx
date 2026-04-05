@@ -1,13 +1,19 @@
 import { IoIosSend } from "react-icons/io";
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 import { IoPersonCircle } from "react-icons/io5";
-import { GoSidebarCollapse, GoSidebarExpand } from "react-icons/go";
 import { io } from "socket.io-client";
 import { useData } from "../context/AuthContext";
 import Cookies from "js-cookie";
 import { useChat } from "../context/ChatsContext";
 import { useEffect, useState, useRef } from "react";
 import { getChatByIdRequest } from "../api/chats.api";
+
+import { io, Socket } from "socket.io-client";
+// Importamos las mismas interfaces que definimos para el backend
+import {
+  ClientToServerEvents,
+  ServerToClientEvents,
+} from "./types/socket.types";
 
 const ChatsPage = () => {
   const { user, loading } = useData();
@@ -45,7 +51,7 @@ const ChatsPage = () => {
             { id: serverOffset, message, senderId },
           ]);
         }
-      }
+      },
     );
     socketRef.current.on("conversation", (id) => {
       setActiveConversationId(id);
@@ -73,7 +79,7 @@ const ChatsPage = () => {
     loadConversations();
     const conversation = conversations.find((c) => c.id === conversationId);
     const participant = conversation.Participants.find(
-      ({ userId }) => userId !== user.user.id
+      ({ userId }) => userId !== user.user.id,
     );
     setReceiverId(participant.userId);
     setActiveConversationId(conversationId);
@@ -96,7 +102,7 @@ const ChatsPage = () => {
     event.preventDefault();
     const message = event.target[0].value.trim();
     if (!message) return;
-    socketRef.current.emit("message", message);
+    socketRef.current.emit("message", message, user.user);
     event.target[0].value = "";
     setMessages((prevMessages) => [
       ...prevMessages,
@@ -131,7 +137,7 @@ const ChatsPage = () => {
       return <div className="w-full my-5 text-center">No conversations</div>;
     return conversations.map(({ id, Participants }) => {
       const otherParticipant = Participants.find(
-        ({ userId }) => userId !== user.user.id
+        ({ userId }) => userId !== user.user.id,
       );
       return (
         <li

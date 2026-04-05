@@ -1,32 +1,58 @@
-import Navbar from "./components/Navbar";
 import { Routes, Route } from "react-router-dom";
-import { AuthContextProvider } from "./context/AuthContext";
-import { ChatsContextProvider } from "./context/ChatsContext";
-import SignUpPage from "./pages/SignUpPage";
-import LoginPage from "./pages/LoginPage";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AuthContextProvider } from "./store/AuthContext";
+
+import PageContainer from "./pages/PageContainer";
+import AuthFormPage from "./pages/AuthFormPage";
 import ProtectedRoute from "./pages/ProtectedRoute";
-import ChatsPage from "./pages/ChatsPage";
-import HomePage from "./pages/HomePage";
+import MainPage from "./pages/MainPage";
 import ComingSoon from "./pages/ComingSoon";
+import NotFound from "./pages/NotFound";
+
+import Navbar from "./components/Navbar";
+import SideBar from "./components/SideBar";
+
+import LoginForm from "./features/auth/components/LoginForm";
+import RegisterForm from "./features/auth/components/RegisterForm";
 
 const App = () => {
+  const queryClient = new QueryClient();
   return (
     <>
-      <AuthContextProvider>
-        <ChatsContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthContextProvider>
           <Navbar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<SignUpPage />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/chats" element={<ChatsPage />} />
-              <Route path="/profile" element={<ComingSoon />} />
-            </Route>
-            <Route path="*" element={<h1>404</h1>} />
-          </Routes>
-        </ChatsContextProvider>
-      </AuthContextProvider>
+          <SideBar />
+          <PageContainer>
+            <Routes>
+              <Route path="/" element={<MainPage />} />
+
+              <Route
+                path="/login"
+                element={
+                  <AuthFormPage>
+                    <LoginForm />
+                  </AuthFormPage>
+                }
+              />
+              <Route
+                path="/register"
+                element={
+                  <AuthFormPage>
+                    <RegisterForm />
+                  </AuthFormPage>
+                }
+              />
+
+              <Route element={<ProtectedRoute />}>
+                <Route path="/" element={<MainPage />} />
+                <Route path="/profile" element={<ComingSoon />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </PageContainer>
+        </AuthContextProvider>
+      </QueryClientProvider>
     </>
   );
 };

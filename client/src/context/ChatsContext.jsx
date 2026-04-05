@@ -28,6 +28,7 @@ export const ChatsContextProvider = ({ children }) => {
   const loadUsers = async () => {
     try {
       const response = await getUsersRequest();
+      console.log(response.data);
       setUsers(response.data.users);
     } catch (error) {
       console.error(error);
