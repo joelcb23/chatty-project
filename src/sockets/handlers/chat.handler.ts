@@ -2,25 +2,22 @@ import { Server, Socket } from "socket.io";
 import type {
   ClientToServerEvents,
   ServerToClientEvents,
+  SocketData,
 } from "../../types/socket.types";
 
 export const registerChatHandlers = (
-  io: Server<ClientToServerEvents, ServerToClientEvents>,
-  socket: Socket<ClientToServerEvents, ServerToClientEvents>,
+  io: Server<ClientToServerEvents, ServerToClientEvents, any, SocketData>,
+  socket: Socket<ClientToServerEvents, ServerToClientEvents, any, SocketData>,
 ) => {
-  const sendMessage = (content: string) => {
-    // Lógica de negocio: Validar mensaje, guardar en DB, etc.
-    console.log(`Mensaje de ${socket.id}: ${content}`);
-
-    // Emitir a todos
+  const sendMessage = async (content: string) => {
+    console.log("Received message:", content, "from user:", socket.data.userId);
     io.emit("message", {
       id: Date.now().toString(),
-      user: socket.id,
+      user: socket.data.userId,
       content,
       timestamp: new Date(),
     });
   };
 
-  // Registrar los listeners
-  socket.on("send_message", sendMessage);
+  socket.on("message", sendMessage);
 };

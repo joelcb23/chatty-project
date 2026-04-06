@@ -55,10 +55,11 @@ export const login = catchAsync(
 export const verifyToken = catchAsync(
   async (req: express.Request, res: express.Response) => {
     // get token from cookies
-    const token = req.cookies.refreshToken;
+    const authHeader = req.headers.authorization; // Access Token sent by the client
+    const token = authHeader && authHeader.split(" ")[1];
     // check if token exists
     if (!token) throw new AppError("Token not found", 401);
-    await AuthService.verifyRefreshToken(token);
+    AuthService.verifyAccessToken(token);
     res.status(200).json({ message: "Token verified" });
   },
 );

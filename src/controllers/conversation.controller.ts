@@ -8,6 +8,7 @@ import { AppError } from "../utils/AppError";
 export const getConversations = catchAsync(
   async (req: express.Request, res: express.Response) => {
     const userId = req.user.id;
+    // console.log(userId);
     const conversations = await ConversationService.findConversationsByUser({
       userId,
     });
@@ -30,7 +31,7 @@ export const createConversation = catchAsync(
 export const createGroupConversation = catchAsync(
   async (req: express.Request, res: express.Response) => {
     const userId: string = req.user.id;
-    console.log("userid from conversation.controller", userId);
+    // console.log("userid from conversation.controller", userId);
     const { receiverIds, title }: { receiverIds: string[]; title: string } =
       req.body;
     console.log(req.body);

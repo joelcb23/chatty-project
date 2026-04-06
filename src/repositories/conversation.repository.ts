@@ -57,7 +57,7 @@ export const findAllConversationsByUser = async ({
 }) => {
   return await prisma.conversation.findMany({
     where: { members: { some: { userId } } },
-    include: { members: true },
+    include: { members: { include: { user: true } } },
   });
 };
 

@@ -85,6 +85,19 @@ export const loginUser = async (email: string, password: string) => {
   return { user: cleanUserResult(user), accessToken, refreshToken };
 };
 
+export const verifyAccessToken = (token: string) => {
+  try {
+    const payload = jwt.verify(token, config.ACCESS_SECRET) as {
+      userId: string;
+      username: string;
+      email: string;
+    };
+    return payload;
+  } catch (error) {
+    throw new AppError("Invalid token", 401);
+  }
+};
+
 export const verifyRefreshToken = async (token: string) => {
   const tokenFound = await TokenRepository.findToken({
     token: encryptToken(token),

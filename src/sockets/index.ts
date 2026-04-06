@@ -1,10 +1,11 @@
 import { Server } from "socket.io";
 import { registerChatHandlers } from "./handlers/chat.handler";
+import * as AuthService from "../services/auth.service";
 import type {
   ClientToServerEvents,
   ServerToClientEvents,
   SocketData,
-} from "src/types/socket.types";
+} from "../types/socket.types";
 
 export const initSockets = (httpServer: any) => {
   const io = new Server<
@@ -19,6 +20,21 @@ export const initSockets = (httpServer: any) => {
       credentials: true,
     },
     connectionStateRecovery: {},
+  });
+
+  io.use((socket, next) => {
+    const token = socket.handshake.auth.token;
+    if (!token) {
+      return next(new Error("Token not found"));
+    }
+
+    try {
+      const payload = AuthService.verifyAccessToken(token);
+      socket.data.userId = payload.userId;
+      next();
+    } catch (error) {
+      next(new Error("Invalid token"));
+    }
   });
 
   io.on("connection", async (socket) => {
